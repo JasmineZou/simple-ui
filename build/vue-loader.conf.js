@@ -8,6 +8,7 @@ const sourceMapEnabled = isProduction
 
 module.exports = {
   loaders: utils.cssLoaders({
+    usePostCSS: true,
     sourceMap: sourceMapEnabled,
     extract: isProduction
   }),
