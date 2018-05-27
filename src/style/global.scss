@@ -1,3 +1,14 @@
+/* 基础样式 */
+$base-border: 1px solid #232323;
+$base-border-radius: 10px;
+$base-padding: 10px;
+$base-font-size: 12px;
+
+@mixin base-style () {
+	border: $base-border;
+	border-radius: $base-border-radius;
+}
+
 /* s-input 样式 */
 $input-border: 1px solid #232323;
 $input-font-size: 12px;
@@ -26,3 +37,6 @@ $label-font-size: 12px;
 	padding: $input-padding;
 	font-size: $label-font-size;
 }
+
+/* s-select-ul, s-select-li */
+

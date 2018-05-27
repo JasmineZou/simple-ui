@@ -27,6 +27,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'bscroll': 'better-scroll/dist/bscroll.esm.js'
     }
   },
   module: {

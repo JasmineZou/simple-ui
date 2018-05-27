@@ -12,12 +12,11 @@
 		</div>
 		<div :style="[c_wrapperStyle]">
 			<input
-				type="text"
 				class="s_input"
 				:class="[{'lines': c_styleType}]"
 				v-bind="$attrs"
 				:value="value"
-				@input="$emit('input', $event.target.value)">
+				v-on="inputListeners">
 		</div>
 		
 	</div>
