@@ -1,1 +1,18 @@
-$red: blue;
+$input-border: 1px solid #232323;
+$input-font-size: 12px;
+$input-radius: 10px;
+$input-padding: 10px;
+$input-outline: none;
+$input-display: block;
+$input-width: 100%;
+@mixin input-mixin () {
+	border: $input-border;
+	font-size: $input-font-size;
+	border-radius: $input-radius;
+	padding: $input-padding;
+	display: $input-display;
+	width: $input-width;
+	&:focus {
+		outline: $input-outline;
+	}
+}

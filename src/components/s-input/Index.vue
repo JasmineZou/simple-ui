@@ -1,6 +1,6 @@
 <template>
-	<div class="s_input">
-		helloworld
+	<div>
+		<input type="text" class="s_input">
 	</div>
 </template>
 <script>
@@ -10,10 +10,6 @@
 </script>
 <style scoped lang="scss">
 	.s_input {
-		border: .5px solid #232323;
-		width: 100%;
-		height: 50px;
-		font-size: 12px;
-		background-color: $red;
+		@include input-mixin
 	}
 </style>
