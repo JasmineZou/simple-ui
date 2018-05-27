@@ -1,6 +1,14 @@
 <template>
   <div>
-    <s-input></s-input>
+    <s-input
+      placeholder="密码"
+      label="密码:"
+      :label-width="50"
+      label-position="left"
+      label-align="right"
+      v-model="value"
+    />
+    {{value}}
   </div>
 </template>
 
@@ -13,7 +21,7 @@ export default {
   },
   data () {
     return {
-      
+      value: 'helloworld'
     }
   }
 }

@@ -1,3 +1,4 @@
+/* s-input 样式 */
 $input-border: 1px solid #232323;
 $input-font-size: 12px;
 $input-radius: 10px;
@@ -5,6 +6,7 @@ $input-padding: 10px;
 $input-outline: none;
 $input-display: block;
 $input-width: 100%;
+$input-line-height: 50px;
 @mixin input-mixin () {
 	border: $input-border;
 	font-size: $input-font-size;
@@ -12,7 +14,15 @@ $input-width: 100%;
 	padding: $input-padding;
 	display: $input-display;
 	width: $input-width;
+	vertical-align: middle;
 	&:focus {
 		outline: $input-outline;
 	}
+}
+
+/* s-input-label 样式 */
+$label-font-size: 12px;
+@mixin label () {
+	padding: $input-padding;
+	font-size: $label-font-size;
 }

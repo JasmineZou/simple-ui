@@ -19,6 +19,8 @@ exports.cssLoaders = function (options) {
     loader: 'css-loader',
     options: {
       sourceMap: options.sourceMap
+      // modules: true,
+      // localIdentName: '[local]_[hash:base64:8]'
     }
   }
 
