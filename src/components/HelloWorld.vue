@@ -19,9 +19,7 @@
       skin="label"
     ></s-select>
     <p>{{value2}}</p>
-    <s-button
-      out-wave
-    >
+    <s-button>
       按钮
     </s-button>
   </div>
@@ -66,5 +64,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  
+  html, body{
+    overflow: hidden;
+  }
 </style>
