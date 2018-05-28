@@ -93,7 +93,6 @@
 				this.$emit('change', val)
 			},
 			itemClicked (item) {
-				console.log(item)
 				this.$emit('change', item.value);
 				if(this.hideAfterSelected) {
 					this.optionsVisible = false;
@@ -131,6 +130,7 @@
 		left: 0;
 		right: 0;
 		top: 100%;
+		z-index: 1000;
 		.no_options{
 			position: absolute;
 			top: 0;
@@ -171,8 +171,8 @@
 		padding-bottom: $closeBtnHeight + $base-padding;
 	}
 	.s-select-li {
-		font-size: $base-font-size * 2;
-		line-height: $base-font-size * 4;
+		font-size: $base-font-size;
+		line-height: $base-font-size * 2;
 		border-bottom: 1px solid #ddd;
 		&:last-child{
 			border-bottom: none;

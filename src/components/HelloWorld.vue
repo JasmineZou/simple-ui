@@ -19,12 +19,18 @@
       skin="label"
     ></s-select>
     <p>{{value2}}</p>
+    <s-button
+      out-wave
+    >
+      按钮
+    </s-button>
   </div>
 </template>
 
 <script>
 import SInput from '@/components/s-input';
 import SSelect from '@/components/s-select';
+import SButton from '@/components/s-button';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -36,7 +42,8 @@ export default {
   name: 'HelloWorld',
   components: {
     SInput,
-    SSelect
+    SSelect,
+    SButton
   },
   data () {
     return {
@@ -59,5 +66,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  
 </style>

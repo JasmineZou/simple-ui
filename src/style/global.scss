@@ -1,8 +1,8 @@
 /* 基础样式 */
 $base-border: 1px solid #232323;
 $base-border-radius: 10px;
-$base-padding: 10px;
-$base-font-size: 12px;
+$base-padding: 20px;
+$base-font-size: 24px;
 
 @mixin base-style () {
 	border: $base-border;
@@ -11,13 +11,13 @@ $base-font-size: 12px;
 
 /* s-input 样式 */
 $input-border: 1px solid #232323;
-$input-font-size: 12px;
+$input-font-size: 24px;
 $input-radius: 10px;
-$input-padding: 10px;
+$input-padding: 20px;
 $input-outline: none;
 $input-display: block;
 $input-width: 100%;
-$input-line-height: 50px;
+$input-line-height: 100px;
 @mixin input-mixin () {
 	border: $input-border;
 	font-size: $input-font-size;
@@ -32,11 +32,12 @@ $input-line-height: 50px;
 }
 
 /* s-input-label 样式 */
-$label-font-size: 12px;
+$label-font-size: 24px;
 @mixin label () {
 	padding: $input-padding;
 	font-size: $label-font-size;
 }
 
-/* s-select-ul, s-select-li */
+/* 按钮 */
+$base-button-font-size: 24px;
 
