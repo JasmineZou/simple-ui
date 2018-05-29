@@ -1,7 +1,3 @@
-function clickOutSide () {
-
-}
-
 export default {
 	bind (el, {value}) {
 		let onClickOutside = value;

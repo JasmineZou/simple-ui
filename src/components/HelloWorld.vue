@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="helloworld">
     <s-input
       label="密码"
       placeholder="密码"
@@ -22,6 +22,14 @@
     <s-button>
       按钮
     </s-button>
+    <radio
+      :options="options"
+      v-model="value3"
+      @change="selectChanged"
+      slide-left
+      multi
+    ></radio>
+    <p>{{value3}}</p>
   </div>
 </template>
 
@@ -29,6 +37,7 @@
 import SInput from '@/components/s-input';
 import SSelect from '@/components/s-select';
 import SButton from '@/components/s-button';
+import Radio from '@/components/radio';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -36,18 +45,30 @@ while(selectOptions.length <50) {
     value: `value-${selectOptions.length}`
   });
 }
+
+let options = [];
+while(options.length < 5) {
+  options.push({
+    label: `label-${options.length}`,
+    value: `value-${options.length}`
+  });
+}
+
 export default {
   name: 'HelloWorld',
   components: {
     SInput,
     SSelect,
-    SButton
+    SButton,
+    Radio
   },
   data () {
     return {
       value: 'helloworld',
       value2: 'value2',
-      selectOptions: selectOptions
+      selectOptions: selectOptions,
+      options: options,
+      value3: 'value3'
     }
   },
   methods: {
@@ -56,7 +77,6 @@ export default {
     },
     selectChanged () {
       console.log('selectChanged')
-
     }
   }
 }
@@ -66,5 +86,8 @@ export default {
 <style scoped>
   html, body{
     overflow: hidden;
+  }
+  .helloworld>div, .helloworld>p{
+    margin-bottom: 20px;
   }
 </style>
