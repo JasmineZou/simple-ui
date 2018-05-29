@@ -19,7 +19,9 @@
       skin="label"
     ></s-select>
     <p>{{value2}}</p>
-    <s-button>
+    <s-button
+      @click="handleClick"
+    >
       按钮
     </s-button>
     <radio
@@ -31,7 +33,11 @@
       multi
     ></radio>
     <p>{{value3}}</p>
-    <s-switch v-model="value4" disabled></s-switch>
+    <s-switch
+      v-model="value4"
+      @open="switchOpen"
+      @close="switchClose"
+    />
     <p>{{value4}}</p>
   </div>
 </template>
@@ -83,6 +89,15 @@ export default {
     },
     selectChanged () {
       console.log('selectChanged')
+    },
+    switchOpen () {
+      console.log('打开')
+    },
+    switchClose () {
+      console.log('关闭')
+    },
+    handleClick () {
+      console.log('点击了')
     }
   }
 }

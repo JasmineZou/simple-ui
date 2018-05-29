@@ -1,5 +1,16 @@
 <template>
-	<div class="s-button" :class="[c_waveClass, {'inline': inline, 'inline-block': inlineBlock}]">
+	<div
+		class="s-button"
+		:class="[
+			c_waveClass,
+			{
+				'inline': inline,
+				'inline-block': inlineBlock,
+				'disabled': disabled
+			}
+		]"
+		@click="!disabled && $emit('click')"
+	>
 		<slot></slot>
 	</div>
 </template>
@@ -20,6 +31,10 @@
 				default: false
 			},
 			inlineBlock: {
+				type: Boolean,
+				default: false
+			},
+			disabled: {
 				type: Boolean,
 				default: false
 			}
@@ -43,6 +58,9 @@
 		font-size: $base-button-font-size;
 		text-align: center;
 		border-radius: $base-border-radius;
+	}
+	.disabled{
+		@include disabled;
 	}
 	
 </style>
