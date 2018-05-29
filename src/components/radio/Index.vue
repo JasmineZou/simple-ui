@@ -1,8 +1,11 @@
 <template>
-	<div class="radio">
+	<div class="radio" :class="{disabled: disabled}">
 		<div
 			class="radio-item"
-			:class="[{'wave': wave}]"
+			:class="[
+				{ 'wave': wave },
+				{ 'disabled': itemDisabled.indexOf(index) > -1}
+			]"
 			v-for="(item, index) in options"
 			@click="itemClick(item, index)"
 		>
@@ -51,11 +54,30 @@
 			wave: {
 				type: Boolean,
 				default: false
+			},
+			disabled: {
+				type: Boolean,
+				default: false
+			},
+			disabledItem: {
+				type: [Array],
+				default: null
+			}
+		},
+		directives: {
+			dItemDisabled: {
+				bind (el, {value}) {
+					console.log(value)
+				},
+				componentUpdated (el, {value}) {
+					console.log('dItemDisabled', this.disabledItems)
+				}
 			}
 		},
 		data: () => ({
 			currentIndex: '',
-			oldIndex: ''
+			oldIndex: '',
+			disabledItems: []
 		}),
 		computed:{
 			direction () {
@@ -68,10 +90,22 @@
 				if(this.currentIndex > this.oldIndex) {
 					return 'down';
 				}
+			},
+			itemDisabled () {
+				return this.disabledItem;
 			}
 		},
 		methods: {
+			isItemDisabled (item, index) {
+				if(this.disabledItem.indexOf(index) !== -1) {
+					return true;
+				}
+				return false;
+			},
 			itemClick (item, index) {
+				if(this.disabled || this.isItemDisabled(item, index)) {
+					return;
+				}
 				this.oldIndex = this.currentIndex;
 				this.currentIndex = index;
 				let arr = [];
@@ -168,5 +202,12 @@
 	}
 	.slide-left-enter-active, .slide-left-leave-active {
 		transition: transform .3s, opacity .15s;
+	}
+	.radio-item {
+		box-sizing: border-box;
+		&.disabled {
+			text-decoration: line-through;
+			opacity: .5;
+		}
 	}
 </style>
