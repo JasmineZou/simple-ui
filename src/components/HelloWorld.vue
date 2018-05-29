@@ -27,9 +27,12 @@
       v-model="value3"
       @change="selectChanged"
       slide-left
+      wave
       multi
     ></radio>
     <p>{{value3}}</p>
+    <s-switch v-model="value4" disabled></s-switch>
+    <p>{{value4}}</p>
   </div>
 </template>
 
@@ -38,6 +41,7 @@ import SInput from '@/components/s-input';
 import SSelect from '@/components/s-select';
 import SButton from '@/components/s-button';
 import Radio from '@/components/radio';
+import SSwitch from '@/components/s-switch';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -60,7 +64,8 @@ export default {
     SInput,
     SSelect,
     SButton,
-    Radio
+    Radio,
+    SSwitch
   },
   data () {
     return {
@@ -68,7 +73,8 @@ export default {
       value2: 'value2',
       selectOptions: selectOptions,
       options: options,
-      value3: 'value3'
+      value3: 'value3',
+      value4: false
     }
   },
   methods: {

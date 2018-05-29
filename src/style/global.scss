@@ -3,6 +3,8 @@ $base-border: 1px solid #232323;
 $base-border-radius: 10px;
 $base-padding: 20px;
 $base-font-size: 24px;
+$base-bc-color: #ffffff;
+$base-height: $base-font-size + $base-padding * 2;
 
 @mixin base-style () {
 	border: $base-border;
@@ -115,4 +117,9 @@ $base-button-font-size: 24px;
 
 .pull-right{
 	float: right;
+}
+
+@mixin disabled () {
+	border-style: dashed;
+	opacity: .6;
 }
