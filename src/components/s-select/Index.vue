@@ -1,5 +1,5 @@
 <template>
-	<div class="s-select">
+	<div class="s-select" v-click-outside="onClickOutside">
 		<s-input
 			v-bind="$attrs"
 			:value="c_inputValue"
@@ -22,8 +22,9 @@
 	</div>
 </template>
 <script>
-	import SInput from '@/components/s-input'
+	import SInput from '@/components/s-input';
 	import bscroll from 'bscroll';
+	import clickOutside from '@/directives/click-outside';
 	export default {
 		name: 's-select',
 		model: {
@@ -57,6 +58,9 @@
 				type: Boolean,
 				default: false
 			}
+		},
+		directives: {
+			clickOutside
 		},
 		components: {
 			SInput
@@ -102,6 +106,9 @@
 				this.scroll = new bscroll(this.$refs.scroller, {
 					click: true
 				});	
+			},
+			onClickOutside () {
+				this.optionsVisible = false;
 			}
 		},
 		mounted () {
