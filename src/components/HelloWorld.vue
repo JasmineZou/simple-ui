@@ -28,6 +28,7 @@
       :options="options"
       v-model="value3"
       @change="selectChanged"
+      @click-item="handleClick"
       :disabled-item="[1, 2, 3]"
       slide-left
       wave

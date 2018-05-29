@@ -3,7 +3,7 @@
 		<div
 			class="radio-item"
 			:class="[
-				{ 'wave': wave },
+				{ 'wave': wave && !(itemDisabled.indexOf(index) > -1)},
 				{ 'disabled': itemDisabled.indexOf(index) > -1}
 			]"
 			v-for="(item, index) in options"
@@ -124,7 +124,7 @@
 					}
 				}
 				this.$emit('change', this.multi ? arr : item.value);
-				this.$emit('item-click', item);
+				this.$emit('click-item', item);
 			}
 		},
 	}
