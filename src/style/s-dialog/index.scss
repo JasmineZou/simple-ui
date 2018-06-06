@@ -1,0 +1,32 @@
+$headerMinHeight: 100px;
+$bodyMinHeight: 200px;
+$footerMinHeight: 100px;
+.s-dialog{
+	position: relative;
+	width: 500px;
+	min-height: 150px;
+	background-color: #FFFFFF;
+	display: inline-block;
+	border: 3px solid #232323;
+	border-radius: 10px;
+}
+.s-dialog_header{
+	padding: 20px;
+	overflow: hidden;
+	border-bottom: 1px solid #232323;
+	font-size: 36px;
+}
+.s-dialog_body{
+	min-height: $bodyMinHeight;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	overflow: hidden;
+	font-size: 24px;
+}
+.s-dialog_footer{
+	border-top: 1px solid #232323;
+	padding: 20px;
+	overflow: hidden;
+}

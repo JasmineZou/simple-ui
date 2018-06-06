@@ -1,46 +1,86 @@
 <template>
   <div class="helloworld">
-    <s-input
-      label="密码"
-      placeholder="密码"
-      :label-width="50"
-      v-model="value"
-      type="password"
-      @input="sayHello"
-    />
-    <p>{{value}}</p>
-    <s-select
-      label="单选下拉列表"
-      placeholder="这是一个单选列表"
-      v-model="value2"
-      @change="selectChanged"
-      :options="selectOptions"
-      hide-after-selected
-      skin="label"
-    ></s-select>
-    <p>{{value2}}</p>
-    <s-button
-      @click="handleClick"
-    >
-      按钮
-    </s-button>
-    <radio
-      :options="options"
-      v-model="value3"
-      @change="selectChanged"
-      @click-item="handleClick"
-      :disabled-item="[1, 2, 3]"
-      slide-left
-      wave
-      multi
-    ></radio>
-    <p>{{value3}}</p>
-    <s-switch
-      v-model="value4"
-      @open="switchOpen"
-      @close="switchClose"
-    />
-    <p>{{value4}}</p>
+    <p>
+      <s-input
+        label="密码"
+        placeholder="密码"
+        :label-width="50"
+        v-model="value"
+        type="password"
+        @input="sayHello"
+      />
+      {{value}}
+    </p>
+
+    
+    <p>
+      <s-select
+        label="单选下拉列表"
+        placeholder="这是一个单选列表"
+        v-model="value2"
+        @change="selectChanged"
+        :options="selectOptions"
+        hide-after-selected
+        skin="label"
+      ></s-select>
+      {{value2}}
+    </p>
+
+
+    <p>
+      <s-button
+        @click="handleClick"
+      >
+        按钮
+      </s-button>
+    </p>
+
+    <p>
+      <radio
+        :options="options"
+        v-model="value3"
+        @change="selectChanged"
+        @click-item="handleClick"
+        :disabled-item="[1, 2, 3]"
+        slide-left
+        wave
+        multi
+      ></radio>
+      {{value3}}
+    </p>
+
+    <p>
+      <s-switch
+        v-model="value4"
+        @open="switchOpen"
+        @close="switchClose"
+      />
+      {{value4}}
+    </p>
+
+
+    
+    <p>
+      <s-dialog v-model="sDialogVisible" hide-on-click-mask>
+        <div class="s-dialog">
+          <div class="s-dialog_header">弹出框</div>
+          <div class="s-dialog_body">是否关闭？</div>
+          <div class="s-dialog_footer"><s-button inline-block @click="sDialogVisible = false">关闭</s-button><s-button inline-block @click="handleClick">取消</s-button></div>
+        </div>
+      </s-dialog>
+      <s-switch
+        v-model="sDialogVisible"
+      />
+      {{sDialogVisible}}
+    </p>
+
+    <p>
+      <s-alert  :visible.sync="sAlertVisible" hide-on-click-mask></s-alert>
+      <s-switch
+        v-model="sAlertVisible"
+      />
+      {{sAlertVisible}}
+    </p>
   </div>
 </template>
 
@@ -50,6 +90,8 @@ import SSelect from '@/components/s-select';
 import SButton from '@/components/s-button';
 import Radio from '@/components/radio';
 import SSwitch from '@/components/s-switch';
+import SDialog from '@/components/s-dialog';
+import SAlert from '@/components/s-alert';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -73,7 +115,9 @@ export default {
     SSelect,
     SButton,
     Radio,
-    SSwitch
+    SSwitch,
+    SDialog,
+    SAlert
   },
   data () {
     return {
@@ -82,7 +126,9 @@ export default {
       selectOptions: selectOptions,
       options: options,
       value3: 'value3',
-      value4: false
+      value4: false,
+      sDialogVisible: false,
+      sAlertVisible: false,
     }
   },
   methods: {
@@ -110,7 +156,9 @@ export default {
   html, body{
     overflow: hidden;
   }
-  .helloworld>div, .helloworld>p{
-    margin-bottom: 20px;
+  
+  .helloworld>p{
+    border-bottom: 3px dashed #232323;
+    padding: 20px;
   }
 </style>
