@@ -4,7 +4,7 @@
 			<div class="s-mask" v-show="visible" @click="hide"></div>
 		</transition>
 		<transition name="fade-scale">
-			<div class="s-dialog-content" v-show="visible" @mousescroll="scroller">
+			<div class="s-dialog-content" v-show="visible" @click="hide">
 				<slot></slot>
 			</div>
 		</transition>
@@ -33,9 +33,6 @@
 					this.$emit('change', false)
 					this.$emit('update:visible', false)
 				}
-			},
-			scroller() {
-				console.log('scroll')
 			}
 		}
 	}

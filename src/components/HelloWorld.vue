@@ -81,6 +81,15 @@
       />
       {{sAlertVisible}}
     </p>
+
+    <p>
+      <s-loading  :visible.sync="sLoadingVisible"></s-loading>
+      <s-switch
+        v-model="sLoadingVisible"
+        @click="closeLoadingAfterTime(3000)"
+      />
+      {{sLoadingVisible}}
+    </p>
   </div>
 </template>
 
@@ -92,6 +101,7 @@ import Radio from '@/components/radio';
 import SSwitch from '@/components/s-switch';
 import SDialog from '@/components/s-dialog';
 import SAlert from '@/components/s-alert';
+import SLoading from '@/components/s-loading';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -117,7 +127,8 @@ export default {
     Radio,
     SSwitch,
     SDialog,
-    SAlert
+    SAlert,
+    SLoading
   },
   data () {
     return {
@@ -129,6 +140,7 @@ export default {
       value4: false,
       sDialogVisible: false,
       sAlertVisible: false,
+      sLoadingVisible: false
     }
   },
   methods: {
@@ -146,6 +158,11 @@ export default {
     },
     handleClick () {
       console.log('点击了')
+    },
+    closeLoadingAfterTime (time) {
+      setTimeout(() => {
+        this.sLoadingVisible = false;
+      }, time)
     }
   }
 }
