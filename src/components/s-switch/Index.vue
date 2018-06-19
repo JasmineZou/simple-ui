@@ -34,6 +34,7 @@
 		},
 		methods: {
 			clicked () {
+				this.$emit('click')
 				!this.disabled && this.$emit('change', !this.value)
 				!this.value && this.$emit('open')
 				this.value && this.$emit('close')
