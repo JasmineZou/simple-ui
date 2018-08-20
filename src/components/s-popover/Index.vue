@@ -1,13 +1,13 @@
 <template>
   <div style="position: relative;">
     <transition name="fade">
-      <div class="s-mask" v-show="visible" @click="hide"></div>
+      <div class="s-mask" v-if="visible" @click="hide"></div>
     </transition>
     <transition :name="transitionName">
       <div
         class="s-popover-content"
         :class="[{left: left, right: right, bottom: bottom, top: top}]"
-        v-show="visible"
+        v-if="visible"
         :style="contentStyle"
         >
         <slot></slot>
@@ -51,10 +51,18 @@
       contentStyle: function () {
         let styleObj = {};
         if(this.height) {
-          styleObj.height = getVh(this.height);
+          if(typeof this.height === 'string') {
+            styleObj.height = this.height;
+          } else {
+            styleObj.height = getVh(this.height);
+          }
         }
         if(this.width) {
-          styleObj.width = getVw(this.width);
+          if(typeof this.width === 'string') {
+            styleObj.width = this.width;
+          } else {
+            styleObj.width = getVh(this.width);
+          }
         }
         return styleObj;
       },

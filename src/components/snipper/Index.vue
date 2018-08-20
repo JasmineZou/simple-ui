@@ -23,8 +23,9 @@
 	.loading_wrapper {
 		position: relative;
 	}
+	$loadingWidth: 30px;
 	.loading_one {
-		$w: 20px;
+		$w: $loadingWidth;
 		$m: $w/2;
 		position: absolute;
 		left: 50%;
@@ -37,7 +38,7 @@
 		background-color: #232323;
 	}
 	.loading_two {
-		$w: 60px;
+		$w: $loadingWidth * 3;
 		$m: $w/2;
 		position: absolute;
 		left: 50%;
@@ -53,7 +54,7 @@
 		animation: ring 1s linear infinite;
 	}
 	.loading_three {
-		$w: 35px;
+		$w: $loadingWidth + 15px;
 		$m: $w/2;
 		position: absolute;
 		left: 50%;

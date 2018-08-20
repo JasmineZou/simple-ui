@@ -26,7 +26,8 @@
       }
     },
     data: () => ({
-      scroll: ''
+      scroll: '',
+      domShow: false
     }),
     computed: {
       wrapperHeight: function () {
@@ -38,11 +39,21 @@
         }
       }
     },
+    methods: {
+      initScroll () {
+        if(this.scroll) {
+          return;
+        }
+        this.$nextTick(() => {
+          let wrapperDom = this.$refs.wrapper;
+          this.scroll = new BScroll(wrapperDom, {
+            click: this.scrollClick
+          })
+        })
+      }
+    },
     mounted () {
-      let wrapperDom = this.$refs.wrapper;
-      this.scroll = new BScroll(wrapperDom, {
-        click: this.scrollClick
-      });
+      this.initScroll();
     },
     destroy() {
       if(this.scroll) {

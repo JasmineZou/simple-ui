@@ -90,7 +90,6 @@
     <cp-box title="s-alert">
       <s-alert
         :visible.sync="sAlertVisible"
-        hide-on-click-mask
         title="this is a title"
         msg="this is a msg"
       ></s-alert>
@@ -128,11 +127,21 @@
         :visible.sync="sPopoverVisible"
         hide-on-click-mask
         bottom
-        :width="100"
+        width="100%"
         >
-        <div style="background-color: #FFFFFF; box-shadow: 0 0 3px 3px rgba(0, 0, 0, .5); margin: 10px;">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, similique. Dolorem molestiae sequi fugiat repellendus qui voluptatem, magni dicta asperiores a, excepturi. Voluptate reprehenderit praesentium quo sunt, illo ab alias.
-        </div>
+        <s-scroll
+          style="background-color: #FFFFFF;"
+          empty-msg="啥也没有 o(╯□╰)o"
+          :height="200"
+          :scroll-click="true">
+          <s-button
+            style="margin-bottom: 5px;"
+            v-for="({label, value}, index) in selectOptions"
+            :key="value"
+            >
+            {{label}}
+          </s-button>
+        </s-scroll>
       </s-popover>
       <s-switch
         v-model="sPopoverVisible"

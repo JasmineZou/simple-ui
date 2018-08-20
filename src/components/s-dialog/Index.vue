@@ -1,10 +1,10 @@
 <template>
 	<div style="position: relative;">
 		<transition name="fade">
-			<div class="s-mask" v-show="visible" @click="hide"></div>
+			<div class="s-mask" v-if="visible" @click="hide"></div>
 		</transition>
 		<transition name="fade-scale">
-			<div class="s-dialog-content" v-show="visible">
+			<div class="s-dialog-content" v-if="visible">
 				<slot></slot>
 			</div>
 		</transition>
