@@ -17,4 +17,4 @@ function getVh(hpx) {
 
 export default getVw;
 
-export {getVh};
+export {getVh, getVw};

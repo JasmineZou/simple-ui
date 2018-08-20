@@ -1,6 +1,6 @@
 <template>
   <div class="helloworld">
-    <p>
+    <cp-box title="s-input">
       <s-input
         label="密码"
         placeholder="密码"
@@ -10,10 +10,10 @@
         @input="sayHello"
       />
       {{value}}
-    </p>
+    </cp-box>
 
     
-    <p>
+    <cp-box title="s-select">
       <s-select
         label="单选下拉列表"
         placeholder="这是一个单选列表"
@@ -24,18 +24,18 @@
         skin="label"
       ></s-select>
       {{value2}}
-    </p>
+    </cp-box>
 
 
-    <p>
+    <cp-box title="s-button">
       <s-button
         @click="handleClick"
       >
         按钮
       </s-button>
-    </p>
+    </cp-box>
 
-    <p>
+    <cp-box title="radio">
       <radio
         :options="options"
         v-model="value3"
@@ -47,22 +47,23 @@
         multi
       ></radio>
       {{value3}}
-    </p>
+    </cp-box>
 
-    <p>
+    <cp-box title="s-switch">
       <s-switch
         v-model="value4"
         @open="switchOpen"
         @close="switchClose"
       />
       {{value4}}
-    </p>
+    </cp-box>
 
 
     
-    <p>
-      s-dialog
-      <s-dialog v-model="sDialogVisible" hide-on-click-mask>
+    <cp-box title="s-dialog">
+      <s-dialog
+        :visible.sync="sDialogVisible"
+        hide-on-click-mask>
         <div class="s-dialog">
           <div class="s-dialog_header">弹出框</div>
           <div class="s-dialog_body">是否关闭？</div>
@@ -72,45 +73,76 @@
       <s-switch
         v-model="sDialogVisible"
       />
-      {{sDialogVisible}}
-    </p>
+      sDialogVisible:{{sDialogVisible}}
+    </cp-box>
 
-    <p>
-      s-confirm
+    <cp-box title="s-confirm">
       <s-confirm
-        v-model="sConfirmVisible"
+        :visible.sync="sConfirmVisible"
+        hide-on-click-mask
       ></s-confirm>
       <s-switch
         v-model="sConfirmVisible"
       />
-    </p>
+      sConfirmVisible:{{sConfirmVisible}}
+    </cp-box>
 
-    <p>
-      <s-alert  :visible.sync="sAlertVisible" hide-on-click-mask></s-alert>
+    <cp-box title="s-alert">
+      <s-alert
+        :visible.sync="sAlertVisible"
+        hide-on-click-mask
+        title="this is a title"
+        msg="this is a msg"
+      ></s-alert>
       <s-switch
         v-model="sAlertVisible"
       />
-      {{sAlertVisible}}
-    </p>
+      sAlertVisible:{{sAlertVisible}}
+    </cp-box>
 
-    <p>
+    <cp-box title="s-loading">
       <s-loading  :visible.sync="sLoadingVisible"></s-loading>
       <s-switch
         v-model="sLoadingVisible"
-        @click="closeLoadingAfterTime(3000)"
+        @click="closeLoadingAfterTime(2000)"
       />
-      {{sLoadingVisible}}
-    </p>
+      sLoadingVisible:{{sLoadingVisible}}
+    </cp-box>
 
-    <p>
-      <s-scroll empty-msg="啥也没有 o(╯□╰)o">
-        <!-- <div v-for="i in selectOptions">{{i}}</div> -->
+    <cp-box title="s-scroll">
+      <s-scroll
+        empty-msg="啥也没有 o(╯□╰)o"
+        :scroll-click="true">
+        <s-button
+          style="margin-bottom: 5px;"
+          v-for="({label, value}, index) in selectOptions"
+          :key="value"
+          @click="handleClick">
+          {{label}}
+        </s-button>
       </s-scroll>
-    </p>
+    </cp-box>
+
+    <cp-box title="s-popover">
+      <s-popover
+        :visible.sync="sPopoverVisible"
+        hide-on-click-mask
+        left
+        :width="100"
+        >
+        <div style="background-color: pink;">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, similique. Dolorem molestiae sequi fugiat repellendus qui voluptatem, magni dicta asperiores a, excepturi. Voluptate reprehenderit praesentium quo sunt, illo ab alias.
+        </div>
+      </s-popover>
+      <s-switch
+        v-model="sPopoverVisible"
+      />
+    </cp-box>
   </div>
 </template>
 
 <script>
+import CpBox from '@/components/CpBox.vue';
 import SInput from '@/components/s-input';
 import SSelect from '@/components/s-select';
 import SButton from '@/components/s-button';
@@ -121,6 +153,7 @@ import SConfirm from '@/components/s-confirm';
 import SAlert from '@/components/s-alert';
 import SLoading from '@/components/s-loading';
 import SScroll from '@/components/s-scroll';
+import SPopover from '@/components/s-popover';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -149,7 +182,9 @@ export default {
     SAlert,
     SLoading,
     SScroll,
-    SConfirm
+    SConfirm,
+    CpBox,
+    SPopover
   },
   data () {
     return {
@@ -162,7 +197,8 @@ export default {
       sDialogVisible: false,
       sConfirmVisible: false,
       sAlertVisible: false,
-      sLoadingVisible: false
+      sLoadingVisible: false,
+      sPopoverVisible: false
     }
   },
   methods: {
@@ -194,10 +230,5 @@ export default {
 <style scoped>
   html, body{
     overflow: hidden;
-  }
-  
-  .helloworld>p{
-    border-bottom: 3px dashed #232323;
-    padding: 20px;
   }
 </style>

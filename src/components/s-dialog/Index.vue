@@ -4,7 +4,7 @@
 			<div class="s-mask" v-show="visible" @click="hide"></div>
 		</transition>
 		<transition name="fade-scale">
-			<div class="s-dialog-content" v-show="visible" @click="hide">
+			<div class="s-dialog-content" v-show="visible">
 				<slot></slot>
 			</div>
 		</transition>

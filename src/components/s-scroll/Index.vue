@@ -20,6 +20,9 @@
       emptyMsg: {
         type: String,
         default: 'empty-msg: empty'
+      },
+      scrollClick: {
+        type: Boolean
       }
     },
     data: () => ({
@@ -31,13 +34,15 @@
           let vh = getVh(this.height);
           return vh
         } else {
-          return '100vh';
+          return 'auto';
         }
       }
     },
     mounted () {
       let wrapperDom = this.$refs.wrapper;
-      this.scroll = new BScroll(wrapperDom);
+      this.scroll = new BScroll(wrapperDom, {
+        click: this.scrollClick
+      });
     },
     destroy() {
       if(this.scroll) {
