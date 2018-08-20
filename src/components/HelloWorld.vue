@@ -61,6 +61,7 @@
 
     
     <p>
+      s-dialog
       <s-dialog v-model="sDialogVisible" hide-on-click-mask>
         <div class="s-dialog">
           <div class="s-dialog_header">弹出框</div>
@@ -72,6 +73,16 @@
         v-model="sDialogVisible"
       />
       {{sDialogVisible}}
+    </p>
+
+    <p>
+      s-confirm
+      <s-confirm
+        v-model="sConfirmVisible"
+      ></s-confirm>
+      <s-switch
+        v-model="sConfirmVisible"
+      />
     </p>
 
     <p>
@@ -106,6 +117,7 @@ import SButton from '@/components/s-button';
 import Radio from '@/components/radio';
 import SSwitch from '@/components/s-switch';
 import SDialog from '@/components/s-dialog';
+import SConfirm from '@/components/s-confirm';
 import SAlert from '@/components/s-alert';
 import SLoading from '@/components/s-loading';
 import SScroll from '@/components/s-scroll';
@@ -136,7 +148,8 @@ export default {
     SDialog,
     SAlert,
     SLoading,
-    SScroll
+    SScroll,
+    SConfirm
   },
   data () {
     return {
@@ -147,6 +160,7 @@ export default {
       value3: 'value3',
       value4: false,
       sDialogVisible: false,
+      sConfirmVisible: false,
       sAlertVisible: false,
       sLoadingVisible: false
     }
