@@ -90,6 +90,12 @@
       />
       {{sLoadingVisible}}
     </p>
+
+    <p>
+      <s-scroll empty-msg="啥也没有 o(╯□╰)o">
+        <!-- <div v-for="i in selectOptions">{{i}}</div> -->
+      </s-scroll>
+    </p>
   </div>
 </template>
 
@@ -102,6 +108,7 @@ import SSwitch from '@/components/s-switch';
 import SDialog from '@/components/s-dialog';
 import SAlert from '@/components/s-alert';
 import SLoading from '@/components/s-loading';
+import SScroll from '@/components/s-scroll';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -128,7 +135,8 @@ export default {
     SSwitch,
     SDialog,
     SAlert,
-    SLoading
+    SLoading,
+    SScroll
   },
   data () {
     return {

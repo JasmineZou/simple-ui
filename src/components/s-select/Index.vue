@@ -120,6 +120,12 @@
 			} else {
 				this.scroll.refresh();
 			}
+		},
+		destroy () {
+			if(this.scroll) {
+				this.scroll.destroy();
+				this.scroll = null;
+			}
 		}
 	}
 </script>
