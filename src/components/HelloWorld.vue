@@ -127,10 +127,10 @@
       <s-popover
         :visible.sync="sPopoverVisible"
         hide-on-click-mask
-        left
+        bottom
         :width="100"
         >
-        <div style="background-color: pink;">
+        <div style="background-color: #FFFFFF; box-shadow: 0 0 3px 3px rgba(0, 0, 0, .5); margin: 10px;">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, similique. Dolorem molestiae sequi fugiat repellendus qui voluptatem, magni dicta asperiores a, excepturi. Voluptate reprehenderit praesentium quo sunt, illo ab alias.
         </div>
       </s-popover>

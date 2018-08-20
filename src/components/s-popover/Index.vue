@@ -36,8 +36,8 @@
       top: Boolean,
       right: Boolean,
       bottom: Boolean,
-      width: Number,
-      height: Number
+      width: [Number, String],
+      height: [Number, String]
     },
     methods: {
       hide () {
