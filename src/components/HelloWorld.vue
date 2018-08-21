@@ -147,6 +147,14 @@
         v-model="sPopoverVisible"
       />
     </cp-box>
+
+    <cp-box title="s-datescroller">
+      <s-datescroller></s-datescroller>
+    </cp-box>
+
+    <cp-box title="s-picker">
+      <s-picker></s-picker>
+    </cp-box>
   </div>
 </template>
 
@@ -163,6 +171,8 @@ import SAlert from '@/components/s-alert';
 import SLoading from '@/components/s-loading';
 import SScroll from '@/components/s-scroll';
 import SPopover from '@/components/s-popover';
+import SDatescroller from '@/components/s-datescroller';
+import SPicker from '@/components/s-picker';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -193,7 +203,9 @@ export default {
     SScroll,
     SConfirm,
     CpBox,
-    SPopover
+    SPopover,
+    SDatescroller,
+    SPicker
   },
   data () {
     return {

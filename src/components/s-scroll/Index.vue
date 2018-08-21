@@ -23,11 +23,14 @@
       },
       scrollClick: {
         type: Boolean
+      },
+      startY: {
+        type: Number,
+        default: 0
       }
     },
     data: () => ({
-      scroll: '',
-      domShow: false
+      scroll: ''
     }),
     computed: {
       wrapperHeight: function () {
@@ -47,7 +50,8 @@
         this.$nextTick(() => {
           let wrapperDom = this.$refs.wrapper;
           this.scroll = new BScroll(wrapperDom, {
-            click: this.scrollClick
+            click: this.scrollClick,
+            startY: this.startY
           })
         })
       }
