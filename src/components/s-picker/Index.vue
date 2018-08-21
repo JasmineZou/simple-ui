@@ -13,7 +13,8 @@
   export default {
     name: 's-picker',
     data: () => ({
-      items: []
+      items: [],
+      pickerData: []
     }),
     created () {
       let i;
