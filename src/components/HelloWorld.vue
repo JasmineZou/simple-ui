@@ -153,7 +153,19 @@
     </cp-box>
 
     <cp-box title="s-picker">
-      <s-picker></s-picker>
+      <s-picker
+        :picker-data="[
+          [1, 2, 3, 4],
+          [
+            {value: 1, label: 'a'},
+            {value: 2, label: 'b'},
+            {value: 3, label: 'c'}
+          ],
+          [
+            'a', 'b', 'c', 'd'
+          ]
+        ]"
+      />
     </cp-box>
   </div>
 </template>

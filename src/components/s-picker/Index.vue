@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <div ref="wrapper" class="wrapper">
+  <div class="s-picker">
+    <div ref="wrapper" class="wrapper" v-for="data in pickerData">
       <div class="content wheel-scroll">
-        <div class="wheel-item cus_item" v-for="item in items">{{item}}</div>
+        <!-- <div class="wheel-item cus_item" v-for="item in data">{{item}}</div> -->
+        <s-picker-item class="wheel-item cus_item" v-for="item in data" :item="item"></s-picker-item>
       </div>
       <div class="panel"></div>
     </div>
@@ -10,29 +11,38 @@
 </template>
 <script>
   import BScroll from 'better-scroll'
+  import SPickerItem from './SPickerItem.vue'
   export default {
     name: 's-picker',
-    data: () => ({
-      items: [],
-      pickerData: []
-    }),
-    created () {
-      let i;
-      for( i = 0;  i < 100; i++) {
-        this.items.push(i);
+    props: {
+      pickerData: {
+        type: Array,
+        default: () => []
       }
     },
+    components: {
+      SPickerItem
+    },
+    data: () => ({
+    }),
     mounted() {
-      let wrapper = this.$refs.wrapper;
-      this.scroll = new BScroll(wrapper, {
-        wheel: {
-          selectedIndex: 0,
-          rotate: 30,
-          adjustTime: 200,
-          wheelWrapperClass: 'wheel-scroll',
-          wheelItemClass: 'wheel-item'
+      let wrappers = this.$refs.wrapper;
+      if(wrappers && wrappers.length > 0) {
+        for (let i=0; i<wrappers.length; i++) {
+          this.scroll = new BScroll(wrappers[i], {
+            wheel: {
+              selectedIndex: 0,
+              rotate: 30,
+              adjustTime: 200,
+              wheelWrapperClass: 'wheel-scroll',
+              wheelItemClass: 'wheel-item'
+            }
+          })
         }
-      })
+      }
+    },
+    computed: {
+
     }
   }
 </script>
@@ -40,6 +50,11 @@
   $baseHeight: 350px;
   $baseGup: 40px;
   $baseMargin: $baseHeight / 2 - $baseGup;
+  .s-picker {
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+  }
   .wrapper {
     height: $baseHeight;
     border: $base-border;
