@@ -153,7 +153,25 @@
     </cp-box>
 
     <cp-box title="s-picker">
-      <s-picker></s-picker>
+      <s-picker
+        :default-value-index="[1, 1, 3]"
+        :default-value="[3, null,'c']"
+        :picker-data="[
+          [1, 2, 3, 4],
+          [
+            {value: 1, label: 'a'},
+            {value: 2, label: 'b'},
+            {value: 3, label: 'c'}
+          ],
+          [
+            'a', 'b', 'c', 'd'
+          ],
+          [2, 3, 4, 5, 6]
+        ]"
+        :labels="['label1', , 'world']"
+        hide-on-click-mask
+        show-current-value
+      />
     </cp-box>
   </div>
 </template>
