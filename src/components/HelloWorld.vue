@@ -171,6 +171,7 @@
         :labels="['label1', , 'world']"
         hide-on-click-mask
         show-current-value
+        auto-select
       />
     </cp-box>
   </div>

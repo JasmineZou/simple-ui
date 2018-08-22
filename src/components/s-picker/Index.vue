@@ -66,7 +66,8 @@
         type: Boolean,
         default: true
       },
-      showCurrentValue: Boolean
+      showCurrentValue: Boolean,
+      autoSelect: Boolean
     },
     components: {
       SPickerItem,
@@ -86,7 +87,7 @@
       cancel() {
         this.visible = false;
       },
-      confirm () {
+      confirm (option = {close: true}) {
         let results = [];
         if(this.scrolls.length > 0) {
           for(let i=0; i<this.scrolls.length; i++) {
@@ -103,7 +104,9 @@
           return item;
         }).join(this.splitor);
         this.$emit('confirm', results)
-        this.visible = false;
+        if(option.close) {
+          this.visible = false;
+        }
       },
       refill () {
         let
@@ -155,15 +158,23 @@
         let wrappers = this.$refs.wrapper;
         if(wrappers && wrappers.length > 0) {
           for (let i=0; i<wrappers.length; i++) {
-            this.scrolls.push(new BScroll(wrappers[i], {
+            let instance = new BScroll(wrappers[i], {
               wheel: {
                 selectedIndex: 0,
                 rotate: 30,
-                adjustTime: 200,
+                adjustTime: 0,
                 wheelWrapperClass: 'wheel-scroll',
                 wheelItemClass: 'wheel-item'
               }
-            }));
+            });
+            if(this.autoSelect) {
+              instance.on('scrollEnd', () => {
+                this.confirm({
+                  close: false
+                });
+              });
+            }
+            this.scrolls.push(instance);
           }
         }
         if(this.defaultValue.length > 0) {
