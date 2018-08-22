@@ -33,6 +33,10 @@
       defaultValue: {
         type: Array,
         default: () => []
+      },
+      defaultValueIndex: {
+        type: Array,
+        default: () => []
       }
     },
     components: {
@@ -63,35 +67,64 @@
         this.$emit('confirm', results)
       },
       refill () {
-        let defaultValueColumnLen = this.defaultValue.length;
-        let pickerDataLen = this.pickerData.length;
-        let len = Math.min(defaultValueColumnLen, pickerDataLen);
-        console.log(len);
+        let
+          pickerDataLen,
+          defaultValueIndexLen,
+          defaultValueColumnLen,
+          len
+        ;
+        pickerDataLen = this.pickerData.length;
         if (!pickerDataLen) return;
-        let indexArr = [];
-        for (let i=0; i<len; i++) {
-          let index = this.pickerData[i].indexOf(this.defaultValue[i]);
-          index > -1 && this.scrolls[i].wheelTo(this.pickerData[i].indexOf(this.defaultValue[i]));
+
+        defaultValueIndexLen = this.defaultValueIndex.length;
+        defaultValueColumnLen = this.defaultValue.length;
+        if(defaultValueIndexLen > 0) {
+          len = Math.min(defaultValueIndexLen, pickerDataLen);
+          for (let i=0; i<len; i++) {
+            let index = this.defaultValueIndex[i];
+            if(index<0) {
+              index = 0;
+            }
+            if(index > this.pickerData[i].length) {
+              index = this.pickerData[i].length - 1;
+            }
+            this.scrolls[i].wheelTo(index);
+          }
+          return;
         }
-        
+
+        if(defaultValueColumnLen > 0) {
+          len = Math.min(defaultValueColumnLen, pickerDataLen);
+          let indexArr = [];
+          for (let i=0; i<len; i++) {
+            let index = this.pickerData[i].indexOf(this.defaultValue[i]);
+            index > -1 && this.scrolls[i].wheelTo(this.pickerData[i].indexOf(this.defaultValue[i]));
+          }
+          return;
+        }
+      },
+      initScrolls () {
+        let wrappers = this.$refs.wrapper;
+        if(wrappers && wrappers.length > 0) {
+          for (let i=0; i<wrappers.length; i++) {
+            this.scrolls.push(new BScroll(wrappers[i], {
+              wheel: {
+                selectedIndex: 0,
+                rotate: 30,
+                adjustTime: 200,
+                wheelWrapperClass: 'wheel-scroll',
+                wheelItemClass: 'wheel-item'
+              }
+            }));
+          }
+        }
+        if(this.defaultValue.length > 0) {
+          this.refill();
+        }
       }
     },
     mounted() {
-      let wrappers = this.$refs.wrapper;
-      if(wrappers && wrappers.length > 0) {
-        for (let i=0; i<wrappers.length; i++) {
-          this.scrolls.push(new BScroll(wrappers[i], {
-            wheel: {
-              selectedIndex: 0,
-              rotate: 30,
-              adjustTime: 200,
-              wheelWrapperClass: 'wheel-scroll',
-              wheelItemClass: 'wheel-item'
-            }
-          }));
-        }
-      }
-      this.refill();
+      this.initScrolls();
     },
     computed: {
       wrapperStyle: function () {
@@ -115,6 +148,10 @@
     align-content: center;
     justify-content: space-around;
     flex-wrap: wrap;
+
+    border: $base-border;
+    border-radius: $base-border-radius;
+    padding: $base-padding;
   }
   .toolbar {
     width: 100%;
