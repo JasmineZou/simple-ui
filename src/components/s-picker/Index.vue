@@ -1,21 +1,28 @@
 <template>
   <div class="s-picker">
     <div class="s-picker-value" @click.self="visible = true">
-      {{currentValue||'请选择'}} <span style="float: right;" @click.self.prevent="clear">X</span>
+      {{currentValue||'请选择'}} <span class="cha" @click.self.prevent="clear"></span>
     </div>
-    <s-popover :visible.sync="visible">
+    <s-popover v-bind="$attrs" :bottom="bottom" :visible.sync="visible">
       <div class="s-picker-panel">
-        <div class="toolbar">
-          <span class="toolbar_btn" @click="cancel">取消</span>
+        <div class="toolbar" v-if="showCurrentValue && currentValue">
           <span class="toolbar_value">{{currentValue}}</span>
-          <span class="toolbar_btn" @click="confirm">确定</span>
+        </div>
+        <div class="labels">
+          <div class="label" v-for="label in labels" :style="[wrapperStyle]">
+            {{label}}
+          </div>
         </div>
         <div ref="wrapper" class="wrapper" v-for="data in pickerData" :style="[wrapperStyle]">
           <div class="content wheel-scroll">
-            <!-- <div class="wheel-item cus_item" v-for="item in data">{{item}}</div> -->
             <s-picker-item :key="index" class="wheel-item cus_item" v-for="(item, index) in data" :item="item"></s-picker-item>
           </div>
           <div class="panel"></div>
+        </div>
+        <div class="btn_wrapper">
+          <s-button @click="cancel" class="block">取消</s-button>
+          <s-button @click="clear" class="block">重置</s-button>
+          <s-button @click="confirm" class="block">确定</s-button>
         </div>
       </div>
     </s-popover>
@@ -25,6 +32,7 @@
   import BScroll from 'better-scroll'
   import SPickerItem from './SPickerItem.vue'
   import SPopover from '@/components/s-popover'
+  import SButton from '@/components/s-button'
   import {
     isObject,
     isNumber,
@@ -45,14 +53,29 @@
       defaultValueIndex: {
         type: Array,
         default: () => []
-      }
+      },
+      splitor: {
+        type: String,
+        default: ','
+      },
+      labels: {
+        type: Array,
+        default: () => []
+      },
+      bottom: {
+        type: Boolean,
+        default: true
+      },
+      showCurrentValue: Boolean
     },
     components: {
       SPickerItem,
-      SPopover
+      SPopover,
+      SButton
     },
     data: () => ({
       currentValue: '',
+      currentValueArr: [],
       scrolls: [],
       visible: false
     }),
@@ -72,13 +95,13 @@
             results.push(target);
           }
         }
-        
+        this.currentValueArr = results;
         this.currentValue = results.map(item => {
           if(isObject(item)){
             item = JSON.stringify(item);
           }
           return item;
-        }).join(',');
+        }).join(this.splitor);
         this.$emit('confirm', results)
         this.visible = false;
       },
@@ -90,6 +113,15 @@
           len
         ;
         pickerDataLen = this.pickerData.length;
+
+        if(this.currentValueArr.length > 0) {
+          for (let i=0; i<this.currentValueArr.length; i++) {
+            let index = this.pickerData[i].indexOf(this.currentValueArr[i]);
+            index > -1 && this.scrolls[i].wheelTo(index);
+          }
+          return;  
+        }
+
         if (!pickerDataLen) return;
 
         defaultValueIndexLen = this.defaultValueIndex.length;
@@ -114,7 +146,7 @@
           let indexArr = [];
           for (let i=0; i<len; i++) {
             let index = this.pickerData[i].indexOf(this.defaultValue[i]);
-            index > -1 && this.scrolls[i].wheelTo(this.pickerData[i].indexOf(this.defaultValue[i]));
+            index > -1 && this.scrolls[i].wheelTo(index);
           }
           return;
         }
@@ -201,7 +233,7 @@
     width: 100%;
     margin-bottom: $base-padding;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
   }
   .toolbar_btn {
     display: inline-block;
@@ -212,6 +244,13 @@
   .toolbar_value {
     width: auto;
     padding: $base-padding;
+  }
+  .labels {
+    width: 100%;
+    display: flex;
+    .label {
+      padding: $base-padding;
+    }
   }
   .wrapper {
     height: $baseHeight;
@@ -258,5 +297,21 @@
   .cus_item {
     padding: 20px;
     font-size: 36px;
+  }
+
+  .btn_wrapper {
+    padding-top: $base-padding;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    .s-button {
+      width: 33%;
+    }
+  }
+
+  .cha {
+    @include baseIcon();
+    background-image: url(../../assets/cha.svg);
+    float: right;
   }
 </style>

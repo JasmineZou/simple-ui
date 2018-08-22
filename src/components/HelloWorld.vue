@@ -165,8 +165,12 @@
           ],
           [
             'a', 'b', 'c', 'd'
-          ]
+          ],
+          [2, 3, 4, 5, 6]
         ]"
+        :labels="['label1', , 'world']"
+        hide-on-click-mask
+        show-current-value
       />
     </cp-box>
   </div>
