@@ -1,9 +1,14 @@
 <template>
   <div class="s-picker">
-    <div ref="wrapper" class="wrapper" v-for="data in pickerData">
+    <div class="toolbar">
+      <span class="toolbar_btn">取消</span>
+      <span class="toolbar_value">{{currentValue}}</span>
+      <span class="toolbar_btn" @click="confirm">确定</span>
+    </div>
+    <div ref="wrapper" class="wrapper" v-for="data in pickerData" :style="[wrapperStyle]">
       <div class="content wheel-scroll">
         <!-- <div class="wheel-item cus_item" v-for="item in data">{{item}}</div> -->
-        <s-picker-item class="wheel-item cus_item" v-for="item in data" :item="item"></s-picker-item>
+        <s-picker-item :key="index" class="wheel-item cus_item" v-for="(item, index) in data" :item="item"></s-picker-item>
       </div>
       <div class="panel"></div>
     </div>
@@ -12,10 +17,20 @@
 <script>
   import BScroll from 'better-scroll'
   import SPickerItem from './SPickerItem.vue'
+  import {
+    isObject,
+    isNumber,
+    isString,
+    isArray
+  } from '@/utils/isTypeOf.js'
   export default {
     name: 's-picker',
     props: {
       pickerData: {
+        type: Array,
+        default: () => []
+      },
+      defaultValue: {
         type: Array,
         default: () => []
       }
@@ -24,12 +39,48 @@
       SPickerItem
     },
     data: () => ({
+      currentValue: '',
+      scrolls: []
     }),
+    methods: {
+      confirm () {
+        let results = [];
+        if(this.scrolls.length > 0) {
+          for(let i=0; i<this.scrolls.length; i++) {
+            let val = this.scrolls[i].getSelectedIndex();
+            let target = this.pickerData[i][val];
+            results.push(target);
+          }
+        }
+        
+        this.currentValue = results.map(item => {
+          if(isObject(item)){
+            item = JSON.stringify(item);
+          }
+          return item;
+        }).join(',');
+
+        this.$emit('confirm', results)
+      },
+      refill () {
+        let defaultValueColumnLen = this.defaultValue.length;
+        let pickerDataLen = this.pickerData.length;
+        let len = Math.min(defaultValueColumnLen, pickerDataLen);
+        console.log(len);
+        if (!pickerDataLen) return;
+        let indexArr = [];
+        for (let i=0; i<len; i++) {
+          let index = this.pickerData[i].indexOf(this.defaultValue[i]);
+          index > -1 && this.scrolls[i].wheelTo(this.pickerData[i].indexOf(this.defaultValue[i]));
+        }
+        
+      }
+    },
     mounted() {
       let wrappers = this.$refs.wrapper;
       if(wrappers && wrappers.length > 0) {
         for (let i=0; i<wrappers.length; i++) {
-          this.scroll = new BScroll(wrappers[i], {
+          this.scrolls.push(new BScroll(wrappers[i], {
             wheel: {
               selectedIndex: 0,
               rotate: 30,
@@ -37,12 +88,21 @@
               wheelWrapperClass: 'wheel-scroll',
               wheelItemClass: 'wheel-item'
             }
-          })
+          }));
         }
       }
+      this.refill();
     },
     computed: {
-
+      wrapperStyle: function () {
+        let width = 0;
+        if(this.pickerData.length) {
+          width = Math.floor (100 / this.pickerData.length)
+        }
+        return {
+          width: `${width}%`
+        }
+      }
     }
   }
 </script>
@@ -54,6 +114,23 @@
     display: flex;
     align-content: center;
     justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .toolbar {
+    width: 100%;
+    margin-bottom: $base-padding;
+    display: flex;
+    justify-content: space-between;
+  }
+  .toolbar_btn {
+    display: inline-block;
+    padding: $base-padding;
+    border: $base-border;
+    border-radius: $base-border-radius;
+  }
+  .toolbar_value {
+    width: auto;
+    padding: $base-padding;
   }
   .wrapper {
     height: $baseHeight;

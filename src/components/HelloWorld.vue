@@ -154,6 +154,7 @@
 
     <cp-box title="s-picker">
       <s-picker
+        :default-value="[3, {value: 2, label: 'b'}, 'c']"
         :picker-data="[
           [1, 2, 3, 4],
           [

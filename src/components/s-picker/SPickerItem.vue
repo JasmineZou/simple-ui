@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{label}}
+    <!-- {{label}} -->
     {{$_label}}
   </div>
 </template>
