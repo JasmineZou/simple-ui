@@ -1,22 +1,30 @@
 <template>
   <div class="s-picker">
-    <div class="toolbar">
-      <span class="toolbar_btn">取消</span>
-      <span class="toolbar_value">{{currentValue}}</span>
-      <span class="toolbar_btn" @click="confirm">确定</span>
+    <div class="s-picker-value" @click.self="visible = true">
+      {{currentValue||'请选择'}} <span style="float: right;" @click.self.prevent="clear">X</span>
     </div>
-    <div ref="wrapper" class="wrapper" v-for="data in pickerData" :style="[wrapperStyle]">
-      <div class="content wheel-scroll">
-        <!-- <div class="wheel-item cus_item" v-for="item in data">{{item}}</div> -->
-        <s-picker-item :key="index" class="wheel-item cus_item" v-for="(item, index) in data" :item="item"></s-picker-item>
+    <s-popover :visible.sync="visible">
+      <div class="s-picker-panel">
+        <div class="toolbar">
+          <span class="toolbar_btn" @click="cancel">取消</span>
+          <span class="toolbar_value">{{currentValue}}</span>
+          <span class="toolbar_btn" @click="confirm">确定</span>
+        </div>
+        <div ref="wrapper" class="wrapper" v-for="data in pickerData" :style="[wrapperStyle]">
+          <div class="content wheel-scroll">
+            <!-- <div class="wheel-item cus_item" v-for="item in data">{{item}}</div> -->
+            <s-picker-item :key="index" class="wheel-item cus_item" v-for="(item, index) in data" :item="item"></s-picker-item>
+          </div>
+          <div class="panel"></div>
+        </div>
       </div>
-      <div class="panel"></div>
-    </div>
+    </s-popover>
   </div>
 </template>
 <script>
   import BScroll from 'better-scroll'
   import SPickerItem from './SPickerItem.vue'
+  import SPopover from '@/components/s-popover'
   import {
     isObject,
     isNumber,
@@ -40,13 +48,21 @@
       }
     },
     components: {
-      SPickerItem
+      SPickerItem,
+      SPopover
     },
     data: () => ({
       currentValue: '',
-      scrolls: []
+      scrolls: [],
+      visible: false
     }),
     methods: {
+      clear() {
+        this.currentValue = ""
+      },
+      cancel() {
+        this.visible = false;
+      },
       confirm () {
         let results = [];
         if(this.scrolls.length > 0) {
@@ -63,8 +79,8 @@
           }
           return item;
         }).join(',');
-
         this.$emit('confirm', results)
+        this.visible = false;
       },
       refill () {
         let
@@ -121,11 +137,20 @@
         if(this.defaultValue.length > 0) {
           this.refill();
         }
+      },
+      destroyScrolls() {
+        if(this.scrolls.length > 0) {
+          this.scrolls.forEach((item) => {
+            item.destroy();
+            item = null;
+          })
+          this.scrolls = [];
+        }
       }
     },
-    mounted() {
-      this.initScrolls();
-    },
+    // mounted() {
+    //   this.initScrolls();
+    // },
     computed: {
       wrapperStyle: function () {
         let width = 0;
@@ -136,6 +161,17 @@
           width: `${width}%`
         }
       }
+    },
+    watch: {
+      visible: function (val) {
+        if(val) {
+          this.$nextTick(() => {
+            this.initScrolls();
+          })
+        } else {
+          this.destroyScrolls();
+        }
+      }
     }
   }
 </script>
@@ -143,12 +179,20 @@
   $baseHeight: 350px;
   $baseGup: 40px;
   $baseMargin: $baseHeight / 2 - $baseGup;
-  .s-picker {
+
+
+  .s-picker-value {
+    border: $base-border;
+    border-radius: $base-border-radius;
+    padding: $base-padding;
+  }
+
+  .s-picker-panel {
     display: flex;
     align-content: center;
     justify-content: space-around;
     flex-wrap: wrap;
-
+    background-color: $base-bc-color;
     border: $base-border;
     border-radius: $base-border-radius;
     padding: $base-padding;
