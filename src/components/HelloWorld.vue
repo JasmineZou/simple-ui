@@ -154,6 +154,7 @@
 
     <cp-box title="s-picker">
       <s-picker
+        v-model="sPickerValue"
         :default-value-index="[1, 1, 3]"
         :default-value="[3, null,'c']"
         :picker-data="[
@@ -171,7 +172,9 @@
         :labels="['label1', , 'world']"
         hide-on-click-mask
         show-current-value
+        auto-select
       />
+      sPickerValue: {{sPickerValue}}
     </cp-box>
   </div>
 </template>
@@ -237,7 +240,8 @@ export default {
       sConfirmVisible: false,
       sAlertVisible: false,
       sLoadingVisible: false,
-      sPopoverVisible: false
+      sPopoverVisible: false,
+      sPickerValue: ''
     }
   },
   methods: {

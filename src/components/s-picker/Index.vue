@@ -41,7 +41,14 @@
   } from '@/utils/isTypeOf.js'
   export default {
     name: 's-picker',
+    model: {
+      prop: 'value',
+      event: 'confirm'
+    },
     props: {
+      value: {
+        type: null
+      },
       pickerData: {
         type: Array,
         default: () => []
@@ -66,7 +73,8 @@
         type: Boolean,
         default: true
       },
-      showCurrentValue: Boolean
+      showCurrentValue: Boolean,
+      autoSelect: Boolean
     },
     components: {
       SPickerItem,
@@ -74,19 +82,20 @@
       SButton
     },
     data: () => ({
-      currentValue: '',
+      currentValue: this.value,
       currentValueArr: [],
       scrolls: [],
       visible: false
     }),
     methods: {
       clear() {
-        this.currentValue = ""
+        this.currentValue = "";
+        this.$emit('confirm', '')
       },
       cancel() {
         this.visible = false;
       },
-      confirm () {
+      confirm (option = {close: true}) {
         let results = [];
         if(this.scrolls.length > 0) {
           for(let i=0; i<this.scrolls.length; i++) {
@@ -103,7 +112,10 @@
           return item;
         }).join(this.splitor);
         this.$emit('confirm', results)
-        this.visible = false;
+        // this.$emit('change', this.currentValue);
+        if(option.close) {
+          this.visible = false;
+        }
       },
       refill () {
         let
@@ -114,11 +126,13 @@
         ;
         pickerDataLen = this.pickerData.length;
 
+        /*如果*/
         if(this.currentValueArr.length > 0) {
           for (let i=0; i<this.currentValueArr.length; i++) {
             let index = this.pickerData[i].indexOf(this.currentValueArr[i]);
             index > -1 && this.scrolls[i].wheelTo(index);
           }
+          this.$emit('confirm', this.currentValueArr);
           return;  
         }
 
@@ -128,6 +142,7 @@
         defaultValueColumnLen = this.defaultValue.length;
         if(defaultValueIndexLen > 0) {
           len = Math.min(defaultValueIndexLen, pickerDataLen);
+          let valueResultArr = [];
           for (let i=0; i<len; i++) {
             let index = this.defaultValueIndex[i];
             if(index<0) {
@@ -137,17 +152,22 @@
               index = this.pickerData[i].length - 1;
             }
             this.scrolls[i].wheelTo(index);
+            valueResultArr.push(this.pickerData[i][index]);
           }
+          this.$emit('confirm', valueResultArr)
           return;
         }
 
         if(defaultValueColumnLen > 0) {
           len = Math.min(defaultValueColumnLen, pickerDataLen);
           let indexArr = [];
+          let valueResultArr = [];
           for (let i=0; i<len; i++) {
             let index = this.pickerData[i].indexOf(this.defaultValue[i]);
             index > -1 && this.scrolls[i].wheelTo(index);
+            valueResultArr.push(this.defaultValue[i]);
           }
+          this.$emit('confirm', valueResultArr);
           return;
         }
       },
@@ -155,15 +175,23 @@
         let wrappers = this.$refs.wrapper;
         if(wrappers && wrappers.length > 0) {
           for (let i=0; i<wrappers.length; i++) {
-            this.scrolls.push(new BScroll(wrappers[i], {
+            let instance = new BScroll(wrappers[i], {
               wheel: {
                 selectedIndex: 0,
                 rotate: 30,
-                adjustTime: 200,
+                adjustTime: 0,
                 wheelWrapperClass: 'wheel-scroll',
                 wheelItemClass: 'wheel-item'
               }
-            }));
+            });
+            if(this.autoSelect) {
+              instance.on('scrollEnd', () => {
+                this.confirm({
+                  close: false
+                });
+              });
+            }
+            this.scrolls.push(instance);
           }
         }
         if(this.defaultValue.length > 0) {
@@ -180,9 +208,57 @@
         }
       }
     },
-    // mounted() {
-    //   this.initScrolls();
-    // },
+    mounted() {
+      let
+        iLen = this.defaultValueIndex.length,
+        iArr = this.defaultValueIndex,
+        vLen = this.defaultValue.length,
+        vArr = this.defaultValue,
+        pLen = this.pickerData.length,
+        minLen = iLen ? (Math.min(iLen, pLen)) : (Math.min(vLen, pLen)),
+        resultArr = []
+      ;
+
+      /*defaultValueIndex 根据默认选中值下标来选取默认值*/
+      if(iLen && minLen) {
+        for(let i=0; i<minLen; i++) {
+          /*iArr[i]是pickerData[i]的元素下标*/
+          /*
+            iArr: [2, 1]
+
+            pickerData: [
+              [1, 2, 3],
+              ['a', 'b', 'c']
+            ]
+
+            pickerData[1][iArr[1]] => pickerData[1][1] => 'b'
+          */
+          resultArr.push(this.pickerData[i][iArr[i]]);
+        }
+        this.$emit('confirm', resultArr)
+        this.currentValue = resultArr.map(item => {
+          if(isObject(item)){
+            item = JSON.stringify(item);
+          }
+          return item;
+        }).join(this.splitor);
+        return;
+      }
+
+      /*defaultValue 根据默认选中值的值来选取默认值*/
+      if(vLen && minLen) {
+        for(let i=0; i<minLen; i++) {
+          let index = this.pickerData[i].indexOf(this.defaultValue[i]);
+          if(index > -1) {
+            resultArr.push(this.defaultValue[i]);  
+          } else {
+            resultArr.push('');
+          }
+        }
+        this.$emit('confirm', resultArr);
+        this.currentValue = resultArr.map().join(this.splitor);
+      }
+    },
     computed: {
       wrapperStyle: function () {
         let width = 0;
