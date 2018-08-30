@@ -1,5 +1,6 @@
 <template>
   <div class="helloworld">
+    <s-menu/>
     <cp-box title="s-input">
       <s-input
         label="密码"
@@ -148,33 +149,15 @@
       />
     </cp-box>
 
-    <cp-box title="s-datescroller">
-      <s-datescroller></s-datescroller>
-    </cp-box>
-
-    <cp-box title="s-picker">
-      <s-picker
-        v-model="sPickerValue"
-        :default-value-index="[1, 1, 3]"
-        :default-value="[3, null,'c']"
-        :picker-data="[
-          [1, 2, 3, 4],
-          [
-            {value: 1, label: 'a'},
-            {value: 2, label: 'b'},
-            {value: 3, label: 'c'}
-          ],
-          [
-            'a', 'b', 'c', 'd'
-          ],
-          [2, 3, 4, 5, 6]
-        ]"
-        :labels="['label1', , 'world']"
-        hide-on-click-mask
-        show-current-value
-        auto-select
-      />
-      sPickerValue: {{sPickerValue}}
+    <cp-box title="s-checkbox">
+      <h3>默认</h3>
+      <s-checkbox></s-checkbox>
+      <h3>自定义图标</h3>
+      <s-checkbox :isDefault="false" :disabeld="false"><i class="iconfont">&#xe637;</i></s-checkbox>
+      <h3>禁用</h3>
+      <s-checkbox :disabled="true"></s-checkbox>
+      <h3>未选中</h3>
+      <s-checkbox :checked="false"></s-checkbox>
     </cp-box>
   </div>
 </template>
@@ -192,8 +175,8 @@ import SAlert from '@/components/s-alert';
 import SLoading from '@/components/s-loading';
 import SScroll from '@/components/s-scroll';
 import SPopover from '@/components/s-popover';
-import SDatescroller from '@/components/s-datescroller';
-import SPicker from '@/components/s-picker';
+import SCheckbox from '@/components/s-checkbox';
+import SMenu from '@/components/s-menu';
 let selectOptions = [];
 while(selectOptions.length <50) {
   selectOptions.push({
@@ -225,8 +208,8 @@ export default {
     SConfirm,
     CpBox,
     SPopover,
-    SDatescroller,
-    SPicker
+    SCheckbox,
+    SMenu
   },
   data () {
     return {
@@ -240,8 +223,7 @@ export default {
       sConfirmVisible: false,
       sAlertVisible: false,
       sLoadingVisible: false,
-      sPopoverVisible: false,
-      sPickerValue: ''
+      sPopoverVisible: false
     }
   },
   methods: {
