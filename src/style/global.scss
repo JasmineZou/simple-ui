@@ -8,6 +8,19 @@ $base-padding: 20px;
 $base-font-size: 24px;
 $base-bc-color: #ffffff;
 $base-height: $base-font-size + $base-padding * 2;
+$base-icon-height: 35px;
+$base-icon-width: $base-icon-height;
+
+@mixin baseIcon() {
+	display: inline-block;
+	width: $base-icon-width;
+	height: $base-icon-height;
+	background-image: url(../../assets/pizza.svg);
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	vertical-align: top;
+}
 
 @mixin base-style () {
 	border: $base-border;
@@ -15,7 +28,7 @@ $base-height: $base-font-size + $base-padding * 2;
 }
 
 /* s-input 样式 */
-$input-border: 1px solid #232323;
+$input-border: $base-border;
 $input-font-size: 24px;
 $input-radius: 10px;
 $input-padding: 20px;
