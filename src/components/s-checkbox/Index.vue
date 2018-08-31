@@ -1,5 +1,5 @@
 <template>
-	<div class="s-checkbox" :class="{active: disabled}" @click="hanleCheck(value)">
+	<div class="s-checkbox" :class="{active: disabled}" @click="handleCheck(value)">
 		 <span v-if="isDefault"><i class="iconfont" v-if="check">&#xe62d;</i> <i v-else class="iconfont" >&#xe61a;</i></span>
 		 <span v-else><slot></slot></span>
 		 <span class="title">{{title}}</span>
@@ -39,7 +39,7 @@
 			}
 		},
 		methods: {
-			hanleCheck: function(e){
+			handleCheck: function(e){
 				if (this.disabled) {
 					return;
 				}
